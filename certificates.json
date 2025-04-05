@@ -1,0 +1,22 @@
+{
+    "certificates": [
+        {
+            "id": 1,
+            "certificate_number": "12345",
+            "issued_by": "Green Bank",
+            "date": "2025-04-01"
+        },
+        {
+            "id": 2,
+            "certificate_number": "67890",
+            "issued_by": "Eco Bank",
+            "date": "2025-04-02"
+        },
+        {
+            "id": 3,
+            "certificate_number": "1245",
+            "issued_by": "Green Bank",
+            "date": "2025-04-01"
+        }
+    ]
+}
