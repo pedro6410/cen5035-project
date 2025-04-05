@@ -1,0 +1,16 @@
+{
+    "credit_history": [
+        {
+            "transaction_date": "2025-04-05",
+            "buy_sell": "Buy",
+            "amount": 50,
+            "new_balance": 150
+        },
+        {
+            "transaction_date": "2025-04-06",
+            "buy_sell": "Sell",
+            "amount": 30,
+            "new_balance": 120
+        }
+    ]
+}
