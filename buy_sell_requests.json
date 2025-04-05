@@ -1,0 +1,18 @@
+{
+    "buy_sell_requests": [
+        {
+            "id": 1,
+            "employer_id": 1,
+            "type": "buy",
+            "amount": 50,
+            "status": "approved"
+        },
+        {
+            "id": 2,
+            "employer_id": 2,
+            "type": "sell",
+            "amount": 30,
+            "status": "pending"
+        }
+    ]
+}
