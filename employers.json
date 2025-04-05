@@ -1,18 +1,31 @@
-[
-    {
-        "id": 1,
-        "name": "Green Solutions Inc.",
-        "email": "contact@greensolutions.com",
-        "approved": true,
-        "reviewed_by": "admin",
-        "review_date": "2025-04-05 09:25:12"
-    },
-    {
-        "id": 2,
-        "name": "EcoTech Group",
-        "email": "info@ecotech.com",
-        "approved": false,
-        "reviewed_by": "admin",
-        "review_date": "2025-04-05 09:25:43"
-    }
-]
+{
+    "employers": [
+        {
+            "id": 1,
+            "name": "Green Solutions Inc.",
+            "email": "contact@greensolutions.com",
+            "approved": true,
+            "carbon_credits": 165,
+            "reviewed_by": "admin",
+            "review_date": "2025-04-05 14:10:19"
+        },
+        {
+            "id": 2,
+            "name": "EcoTech Group",
+            "email": "info@ecotech.com",
+            "approved": false,
+            "carbon_credits": 50,
+            "reviewed_by": "admin",
+            "review_date": "2025-04-05 09:25:43"
+        },
+        {
+            "id": 3,
+            "name": "Tech Innovations",
+            "email": "contact@techinnovations.com",
+            "approved": true,
+            "carbon_credits": 0,
+            "reviewed_by": "admin",
+            "review_date": "2025-04-05 18:00:21"
+        }
+    ]
+}
