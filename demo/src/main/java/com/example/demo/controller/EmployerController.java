@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Employer;
 import com.example.demo.service.EmployerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,24 +10,29 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/employers")
 public class EmployerController {
-    private final EmployerService service;
 
-    public EmployerController(EmployerService service) {
-        this.service = service;
+    private final EmployerService employerService;
+
+    @Autowired
+    public EmployerController(EmployerService employerService) {
+        this.employerService = employerService;
     }
 
-    @PostMapping("/register")
-    public Employer register(@RequestBody Employer employer) {
-        return service.register(employer);
+    // POST: Register new employer
+    @PostMapping
+    public Employer registerEmployer(@RequestBody Employer employer) {
+        return employerService.registerEmployer(employer);
     }
 
-    @DeleteMapping("/deregister/{id}")
-    public void deregister(@PathVariable Long id) {
-        service.deregister(id);
-    }
-
+    // GET: All employers
     @GetMapping
-    public List<Employer> getAll() {
-        return service.getAll();
+    public List<Employer> getAllEmployers() {
+        return employerService.getAllEmployers();
+    }
+
+    //  DELETE: Deregister employer
+    @DeleteMapping("/{id}")
+    public void deleteEmployer(@PathVariable Long id) {
+        employerService.deleteEmployer(id);
     }
 }

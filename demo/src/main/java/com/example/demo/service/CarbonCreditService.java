@@ -12,12 +12,12 @@ public class CarbonCreditService {
 
     private final CarbonCreditRepository repository;
 
-    // ✅ Constructor (injects the repository)
+    //  Constructor (injects the repository)
     public CarbonCreditService(CarbonCreditRepository repository) {
         this.repository = repository;
     }
 
-    // ✅ Actual method to get data for the dashboard
+    //  Actual method to get data for the dashboard
     public List<CarbonCredit> getCreditsForLast7Years() {
         LocalDate sevenYearsAgo = LocalDate.now().minusYears(7);
         return repository.findAllByDateAfter(sevenYearsAgo);

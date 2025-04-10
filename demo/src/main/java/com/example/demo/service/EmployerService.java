@@ -8,25 +8,25 @@ import java.util.List;
 
 @Service
 public class EmployerService {
+
     private final EmployerRepository repository;
 
     public EmployerService(EmployerRepository repository) {
         this.repository = repository;
     }
 
-    public Employer register(Employer employer) {
-        employer.setActive(true);
+    //  Save/register a new employer
+    public Employer registerEmployer(Employer employer) {
         return repository.save(employer);
     }
 
-    public void deregister(Long id) {
-        repository.findById(id).ifPresent(emp -> {
-            emp.setActive(false);
-            repository.save(emp);
-        });
+    // Get all employers
+    public List<Employer> getAllEmployers() {
+        return repository.findAll();
     }
 
-    public List<Employer> getAll() {
-        return repository.findAll();
+    // Delete employer by ID
+    public void deleteEmployer(Long id) {
+        repository.deleteById(id);
     }
 }
