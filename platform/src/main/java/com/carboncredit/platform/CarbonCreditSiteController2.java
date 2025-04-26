@@ -5,6 +5,12 @@ package com.carboncredit.platform;
 
 import com.carboncredit.platform.config.LoginService;
 import com.carboncredit.platform.dto.SignupRequest;
+import com.carboncredit.platform.model.CarbonCreditBank;
+import com.carboncredit.platform.model.Employee;
+import com.carboncredit.platform.model.Employer;
+import com.carboncredit.platform.service.CarbonCreditBankService;
+import com.carboncredit.platform.service.EmployeeService;
+import com.carboncredit.platform.service.EmployerService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -18,6 +24,15 @@ public class CarbonCreditSiteController2 {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private EmployerService employerService;
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    @Autowired
+    private CarbonCreditBankService bankService;
 
     @GetMapping("/login")
     public String showLoginForm() {
@@ -67,7 +82,7 @@ public class CarbonCreditSiteController2 {
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String SIGNUP_LAMBDA_URL = "https://hlm2roliwdnhzhyguhpmwqxdee0gsuyv.lambda-url.us-east-1.on.aws/";
 
-    @GetMapping("/signup")
+    @GetMapping("/create-user")
     public String showSignupForm() {
         return "signup";
     }
@@ -78,9 +93,19 @@ public class CarbonCreditSiteController2 {
                                 @RequestParam("role") String role,
                                 @RequestParam(value = "employeeId", required = false) String employeeId,
                                 @RequestParam(value = "employerId", required = false) String employerId,
-                                Model model) {
+                                @RequestParam(value = "employerName", required = false) String employerName,
+                                @RequestParam(value = "registrationNumber", required = false) String registrationNumber,
+                                @RequestParam(value = "associatedBank", required = false) String associatedBank,
+                                @RequestParam(value = "employeeName", required = false) String employeeName,
+                                @RequestParam(value = "departmentId", required = false) String departmentId,
+                                @RequestParam(value = "bankName", required = false) String bankName,
+                                @RequestParam(value = "licenseNumber", required = false) String licenseNumber,
+                                @RequestParam(value = "bankActive", required = false) Integer bankActive,
+                                Model model){
 
-
+        System.out.println("Signup triggered for role " + role );
+        System.out.println("employeeId: " + employeeId);
+        System.out.println("employerId: " + employerId);
         SignupRequest request = new SignupRequest();
         SignupRequest.Payload payload = new SignupRequest.Payload();
         payload.setUser_id(userId);
@@ -93,6 +118,7 @@ public class CarbonCreditSiteController2 {
         if ("employer".equalsIgnoreCase(role)) {
             payload.setEmployer_id(employerId);
         }
+
 
         request.setPayload(payload);
 
@@ -110,6 +136,40 @@ public class CarbonCreditSiteController2 {
             );
 
             if (response.getStatusCode() == HttpStatus.OK) {
+
+                if ("employer".equals(role)) {
+                    Employer employer = new Employer();
+                    employer.setEmployerId(employerId);
+                    employer.setUserId(userId);
+                    employer.setEmployerName(employerName);
+                    employer.setRegistrationNumber(registrationNumber);
+                    employer.setAssociatedBank(associatedBank);
+                    employer.setActive(0); // Optional
+
+                    employerService.saveEmployer(employer);
+                }
+
+                if ("employee".equals(role)) {
+                    Employee employee = new Employee();
+                    employee.setEmployeeId(employeeId);
+                    employee.setUserId(userId);
+                    employee.setEmployeeName(employeeName);
+                    employee.setDepartmentId(departmentId);
+                    employee.setEmployerId(employerId);
+
+                    employeeService.saveEmployee(employee);
+                }
+
+                if ("bank".equals(role)) {
+                    System.out.println("Bank ID" + userId);
+                    CarbonCreditBank bank = new CarbonCreditBank();
+                    bank.setId(userId);
+                    bank.setBankName(bankName);
+                    bank.setLicenseNumber(licenseNumber);
+                    bank.setActive(bankActive != null ? bankActive : 0);
+                    bankService.save(bank);
+                }
+
                 model.addAttribute("message", "User created successfully!");
                 return "signup-success";
             } else {

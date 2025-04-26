@@ -1,10 +1,12 @@
 package com.carboncredit.platform;
 
+import com.carboncredit.platform.dto.UserWithRole;
 import com.carboncredit.platform.model.Bank;
+import com.carboncredit.platform.model.CarbonCreditBank;
+import com.carboncredit.platform.model.Employee;
 import com.carboncredit.platform.model.Trip;
 import com.carboncredit.platform.repo.TripRepository;
-import com.carboncredit.platform.service.BankService;
-import com.carboncredit.platform.service.TripService;
+import com.carboncredit.platform.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,14 @@ public class CarbonCreditSiteController {
     @Autowired
     private BankService bankService;
 
+    @Autowired
+    private UserService userService;
 
+    @Autowired
+    private EmployeeService employeeService;
+
+    @Autowired
+    private CarbonCreditBankService carbonCreditBankService;
 
     @GetMapping("/")
     public String root(HttpSession session) {
@@ -39,11 +48,33 @@ public class CarbonCreditSiteController {
     }
 
 
+
     @RequestMapping("*")
     public String handleUnmappedPaths() {
         return "dashboard";
     }
 
+    @GetMapping("/users")
+    public String showAllUsers(Model model) {
+        List<UserWithRole> usersWithRoles = userService.getAllUsersWithRoles();
+        model.addAttribute("users", usersWithRoles);
+        return "user-list";
+    }
+
+    @GetMapping("/employer-dashboard")
+    public String showEmployerDashboard() {
+        return "employer-dashboard";  // JSP name without .jsp extension
+    }
+
+    @GetMapping("/employee-list")
+    public String showEmployeeList(Model model, HttpSession session) {
+        String employerId = (String) session.getAttribute("employerId");  // Get employerId from session
+        if (employerId != null) {
+            List<Employee> employees = employeeService.getEmployeesByEmployerId(employerId);
+            model.addAttribute("employees", employees);
+        }
+        return "employee-list"; // JSP name without extension
+    }
 
     @GetMapping("/employee-dashboard")
     public String showEmployeeDashboard(HttpSession session, Model model) {
@@ -94,7 +125,7 @@ public class CarbonCreditSiteController {
 
     @GetMapping("/sell")
     public String showSellPage(@RequestParam("employerId") String employerId, Model model) {
-        List<Bank> banks = bankService.getAllBanks();
+        List<CarbonCreditBank> banks = carbonCreditBankService.getAllBanks();
         model.addAttribute("banks", banks);
         model.addAttribute("employerId", employerId);
         return "sell";
@@ -125,7 +156,7 @@ public class CarbonCreditSiteController {
 
     @GetMapping("/buy")
     public String showBuyPage(@RequestParam("employerId") String employerId, Model model) {
-        List<Bank> banks = bankService.getAllBanks();
+        List<CarbonCreditBank> banks = carbonCreditBankService.getAllBanks();
         model.addAttribute("banks", banks);
         model.addAttribute("employerId", employerId);
         return "buy";

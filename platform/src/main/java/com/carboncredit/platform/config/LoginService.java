@@ -1,6 +1,9 @@
 package com.carboncredit.platform.config;
 
 import com.carboncredit.platform.dto.AuthResponse;
+import com.carboncredit.platform.model.Administrator;
+import com.carboncredit.platform.service.AdministratorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -8,9 +11,13 @@ import org.springframework.web.client.RestTemplate;
 import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class LoginService {
+
+    @Autowired
+    private AdministratorService administratorService;
 
     private final RestTemplate restTemplate;
 
@@ -50,13 +57,25 @@ public class LoginService {
             System.out.println("auth " + auth.toString());
             System.out.println("employeeID " +auth.getEmployeeId() );
             System.out.println("employerID " +auth.getEmployerId() );
-            if (auth == null
+            if (auth == null){
                    // || auth.getEmployeeId() == null || auth.getEmployeeId().isEmpty()
-                    || auth.getEmployerId() == null || auth.getEmployerId().isEmpty()) {
+                    //|| auth.getEmployerId() == null || auth.getEmployerId().isEmpty()) {
 
                 System.out.println(" Login failed: Missing employeeId or employerId");
                 return false;
             }
+            if ((auth.getEmployeeId() == null || auth.getEmployeeId().trim().isEmpty()) &&
+                    (auth.getEmployerId() == null || auth.getEmployerId().trim().isEmpty())) {
+
+                String userId = id;
+
+                Administrator admin = administratorService.getAdministratorByUserId(userId);
+                System.out.println("*** Admin ID: " + admin.getAdministratorId());
+                session.setAttribute("administratorid", admin.getAdministratorId());
+
+            }
+
+
 
 
             session.setAttribute("userId", id);

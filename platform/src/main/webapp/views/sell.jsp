@@ -1,28 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-
-
 <html>
 <head>
     <title>Sell Carbon Credits</title>
-
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-   <link rel="stylesheet" href="/css/styles.css" />
-
+    <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
-
 
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <span class="navbar-brand">Carbon Credit Portal</span>
-        <a href="/dashboard" class="btn btn-outline-light me-2"> Home</a>
-        <a href="/logout" class="btn btn-outline-light"> Logout</a>
+        <div>
+            <a href="/dashboard" class="btn btn-outline-light me-2">Home</a>
+            <a href="/logout" class="btn btn-outline-light">Logout</a>
+        </div>
     </div>
 </nav>
-
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -37,8 +32,9 @@
                         <div class="mb-3">
                             <label for="bankId" class="form-label">Select Bank</label>
                             <select name="bankId" id="bankId" class="form-select" required>
+                                <option value="">-- Select Bank --</option> <!-- Optional first placeholder -->
                                 <c:forEach var="bank" items="${banks}">
-                                    <option value="${bank.bankId}">${bank.bankName}</option>
+                                    <option value="${bank.id}">${bank.bankName}</option> <!-- ✅ Corrected here -->
                                 </c:forEach>
                             </select>
                         </div>
@@ -58,7 +54,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

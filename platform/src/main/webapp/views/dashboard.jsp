@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-
-
 <html>
 <head>
     <title>Dashboard</title>
@@ -29,23 +27,33 @@
     <div class="mt-4 d-flex gap-3">
 
         <c:choose>
-            <c:when test="${not empty employerId and not empty employeeId}">
+            <c:when test="${not empty administratorid}">
+                <a href="/create-user" class="btn btn-outline-primary">Create User</a>
+                <a href="/users" class="btn btn-outline-success">List All Users</a>
                 <button class="btn btn-outline-secondary" disabled>Employer Dashboard</button>
-            </c:when>
-            <c:otherwise>
-                <a href="/trips" class="btn btn-outline-secondary">Employer Dashboard</a>
-            </c:otherwise>
-        </c:choose>
-
-
-        <c:choose>
-            <c:when test="${empty employeeId}">
                 <button class="btn btn-outline-secondary" disabled>Employee Dashboard</button>
             </c:when>
             <c:otherwise>
-                <a href="/employee-dashboard" class="btn btn-outline-secondary">Employee Dashboard</a>
+                <c:choose>
+                    <c:when test="${not empty employerId and empty employeeId}">
+                        <a href="/employer-dashboard" class="btn btn-outline-secondary">Employer Dashboard</a>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn btn-outline-secondary" disabled>Employer Dashboard</button>
+                    </c:otherwise>
+                </c:choose>
+
+                <c:choose>
+                    <c:when test="${not empty employeeId}">
+                        <a href="/employee-dashboard" class="btn btn-outline-secondary">Employee Dashboard</a>
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn btn-outline-secondary" disabled>Employee Dashboard</button>
+                    </c:otherwise>
+                </c:choose>
             </c:otherwise>
         </c:choose>
+
     </div>
 </div>
 

@@ -49,12 +49,6 @@
                         <div class="alert alert-danger text-center">${error}</div>
                     </c:if>
 
-
-                    <div class="text-center mt-3">
-
-                        <a href="/signup" class="btn btn-outline-secondary">Sign Up</a>
-                    </div>
-
                 </div>
             </div>
         </div>

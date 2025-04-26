@@ -36,11 +36,11 @@
 
                         <div class="mb-3">
                             <label for="bankId" class="form-label">Select Bank</label>
-                            <select name="bankId" id="bankId" class="form-select" required>
-                                <c:forEach var="bank" items="${banks}">
-                                    <option value="${bank.bankId}">${bank.bankName}</option>
-                                </c:forEach>
-                            </select>
+<select name="bankId" id="bankId" class="form-select" required>
+    <c:forEach var="bank" items="${banks}">
+        <option value="${bank.id}">${bank.bankName}</option>
+    </c:forEach>
+</select>
                         </div>
 
                         <div class="mb-3">
