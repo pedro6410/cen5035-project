@@ -34,6 +34,7 @@ public class CarbonCreditSiteController2 {
     @Autowired
     private CarbonCreditBankService bankService;
 
+
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
@@ -46,14 +47,33 @@ public class CarbonCreditSiteController2 {
                           HttpSession session) {
 
         boolean isAuthenticated = loginService.authenticate(id, password, session);
+//
+//        if (isAuthenticated) {
+//            System.out.println("Login success");
+//            return "redirect:/dashboard";
+//        } else {
+//            model.addAttribute("error", "Invalid credentials");
+//            return "login";
+//        }
 
         if (isAuthenticated) {
-            System.out.println("Login success");
-            return "redirect:/dashboard";
+            System.out.println("****** Login success");
+
+            if (session.getAttribute("carboncreditbankid") != null) {
+                // ✅ If carboncreditbankid present in session, user is a bank user
+                return "redirect:/carbon-bank-trips";
+            } else {
+                // ✅ Else normal dashboard
+                return "redirect:/dashboard";
+            }
+
         } else {
             model.addAttribute("error", "Invalid credentials");
             return "login";
         }
+
+
+
     }
 
     @GetMapping("/logout")
@@ -101,6 +121,7 @@ public class CarbonCreditSiteController2 {
                                 @RequestParam(value = "bankName", required = false) String bankName,
                                 @RequestParam(value = "licenseNumber", required = false) String licenseNumber,
                                 @RequestParam(value = "bankActive", required = false) Integer bankActive,
+                                @RequestParam(value = "bankID", required = false) String bankID,
                                 Model model){
 
         System.out.println("Signup triggered for role " + role );
@@ -167,6 +188,7 @@ public class CarbonCreditSiteController2 {
                     bank.setBankName(bankName);
                     bank.setLicenseNumber(licenseNumber);
                     bank.setActive(bankActive != null ? bankActive : 0);
+                    bank.setBankID(bankID);
                     bankService.save(bank);
                 }
 
@@ -182,4 +204,14 @@ public class CarbonCreditSiteController2 {
             return "signup";
         }
     }
+    @GetMapping("/create-employee")
+    public String createEmployeePage(HttpSession session, Model model) {
+        // Pass employerId from session to signup page if needed
+        String employerId = (String) session.getAttribute("employerId");
+        model.addAttribute("employerId", employerId);
+        model.addAttribute("autoSelectRole", "employee");
+
+        return "signup";  // Reuse your signup.jsp
+    }
+
 }

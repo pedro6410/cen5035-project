@@ -20,4 +20,14 @@ public class CarbonCreditBankService {
     public List<CarbonCreditBank> getAllBanks() {
         return repository.findAll();
     }
+
+    public boolean existsById(String userId) {
+        return repository.existsById(userId);
+    }
+
+    public CarbonCreditBank getBankById(String userId) {
+        return repository.findById(userId).orElse(null);
+    }
+
+
 }

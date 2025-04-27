@@ -20,7 +20,7 @@
 </nav>
 
 <div class="container mt-5">
-    <h2 class="mb-4">Employee List</h2>
+    <h2 class="mb-4">Employee List for employer: ${employerName}</h2>
     <table class="table table-striped">
         <thead>
         <tr>

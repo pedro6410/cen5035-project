@@ -23,4 +23,7 @@ public class CarbonCreditBank {
 
     @Column(name = "licenseNumber")
     private String licenseNumber;
+
+    @Column(name = "bankID")
+    private String bankID;
 }

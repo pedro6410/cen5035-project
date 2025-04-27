@@ -24,7 +24,7 @@
 
 <div class="container mt-4">
 
-    <h2 class="mb-4">Trips for Employer ID: <span class="text-primary">${employerId}</span></h2>
+    <h2 class="mb-4">All trips for employer: ${employerName}</h2>
 
     <table class="table table-bordered table-striped table-hover">
         <thead class="table-dark">

@@ -6,6 +6,8 @@ import com.carboncredit.platform.repo.EmployerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EmployerService {
 
@@ -18,5 +20,10 @@ public class EmployerService {
 
     public boolean existsByEmployerId(String employerId) {
         return employerRepository.existsByEmployerId(employerId);
+    }
+
+    public Employer getEmployerById(String employerId) {
+        Optional<Employer> optionalEmployer = employerRepository.findById(employerId);
+        return optionalEmployer.orElse(null);
     }
 }

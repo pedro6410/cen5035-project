@@ -52,7 +52,7 @@
                         <!-- Employer ID field (common for Employer and Employee) -->
                         <div class="mb-3" id="employerIdField" style="display: none;">
                             <label for="employerId" class="form-label">Employer ID</label>
-                            <input type="text" name="employerId" id="employerId" class="form-control" />
+                            <input type="text" name="employerId" id="employerId" class="form-control" value="${employerId}" />
                         </div>
 
                         <!-- Employee Fields -->
@@ -93,6 +93,11 @@
 
                         <!-- Bank Fields -->
                         <div id="bankFields" style="display: none;">
+                        <div class="mb-3">
+                                <label for="bankID" class="form-label">Bank ID</label>
+                                <input type="text" name="bankID" id="bankID" class="form-control" />
+                            </div>
+
                             <div class="mb-3">
                                 <label for="bankName" class="form-label">Bank Name</label>
                                 <input type="text" name="bankName" id="bankName" class="form-control" />
@@ -119,6 +124,7 @@
     </div>
 </div>
 
+<!-- JavaScript Section -->
 <script>
     function toggleRoleFields() {
         const role = document.getElementById("role").value;
@@ -129,6 +135,14 @@
 
         // Show Employer ID field for both employer and employee
         document.getElementById("employerIdField").style.display = (role === "employer" || role === "employee") ? "block" : "none";
+    }
+
+    window.onload = function() {
+        var autoRole = '${autoSelectRole}'; // server-side injected
+        if (autoRole === 'employee') {
+            document.getElementById("role").value = 'employee';
+            toggleRoleFields();  // manually trigger to show correct fields
+        }
     }
 </script>
 

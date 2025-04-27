@@ -20,11 +20,15 @@
 </nav>
 
 <div class="container mt-5 text-center">
-    <h2 class="mb-4">Employer Dashboard</h2>
+    <h2 class="mb-4">Dashboard for employer: ${employerName}</h2>
+
+    <br>
+    <br>
 
     <div class="d-flex justify-content-center gap-3">
         <a href="/trips" class="btn btn-primary btn-lg">Employee Trips</a>
         <a href="/employee-list" class="btn btn-success btn-lg">Employee List</a>
+        <a href="/create-employee" class="btn btn-warning btn-lg">Create Employee</a>
     </div>
 </div>
 

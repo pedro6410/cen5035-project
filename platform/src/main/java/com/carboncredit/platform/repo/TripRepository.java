@@ -10,4 +10,5 @@ public interface TripRepository extends JpaRepository<Trip, String> {
     List<Trip> findByEmployerId(String employerId);
 
     List<Trip> findByEmployeeId(String employeeId);
+    List<Trip> findByEmployerIdIn(List<String> employerIds);
 }

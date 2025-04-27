@@ -3,6 +3,7 @@ package com.carboncredit.platform.config;
 import com.carboncredit.platform.dto.AuthResponse;
 import com.carboncredit.platform.model.Administrator;
 import com.carboncredit.platform.service.AdministratorService;
+import com.carboncredit.platform.service.CarbonCreditBankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,10 @@ public class LoginService {
 
     @Autowired
     private AdministratorService administratorService;
+
+    @Autowired
+    private CarbonCreditBankService carbonCreditBankService;
+
 
     private final RestTemplate restTemplate;
 
@@ -69,9 +74,27 @@ public class LoginService {
 
                 String userId = id;
 
+//                Administrator admin = administratorService.getAdministratorByUserId(userId);
+//                System.out.println("*** Admin ID: " + admin.getAdministratorId());
+//                session.setAttribute("administratorid", admin.getAdministratorId());
+
                 Administrator admin = administratorService.getAdministratorByUserId(userId);
-                System.out.println("*** Admin ID: " + admin.getAdministratorId());
-                session.setAttribute("administratorid", admin.getAdministratorId());
+
+                if (admin != null) {
+                    System.out.println("*** Admin ID: " + admin.getAdministratorId());
+                    session.setAttribute("administratorid", admin.getAdministratorId());
+                } else {
+                    // ✅ Not Admin? Then check if CarbonCreditBank user
+                    boolean isCarbonBankUser = carbonCreditBankService.existsById(userId);
+
+                    if (isCarbonBankUser) {
+                        session.setAttribute("carboncreditbankid", userId);
+                        System.out.println("*** CarbonCreditBank ID: " + userId);
+                    } else {
+                        System.out.println("*** Neither Admin nor Carbon Bank user");
+                    }
+                }
+
 
             }
 

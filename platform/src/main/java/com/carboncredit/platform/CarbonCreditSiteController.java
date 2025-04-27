@@ -1,10 +1,7 @@
 package com.carboncredit.platform;
 
 import com.carboncredit.platform.dto.UserWithRole;
-import com.carboncredit.platform.model.Bank;
-import com.carboncredit.platform.model.CarbonCreditBank;
-import com.carboncredit.platform.model.Employee;
-import com.carboncredit.platform.model.Trip;
+import com.carboncredit.platform.model.*;
 import com.carboncredit.platform.repo.TripRepository;
 import com.carboncredit.platform.service.*;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import com.carboncredit.platform.model.CarbonCreditBank;
+
 
 @Controller
 public class CarbonCreditSiteController {
@@ -36,7 +35,13 @@ public class CarbonCreditSiteController {
     private EmployeeService employeeService;
 
     @Autowired
+    private EmployerService employerService;
+
+    @Autowired
     private CarbonCreditBankService carbonCreditBankService;
+
+
+
 
     @GetMapping("/")
     public String root(HttpSession session) {
@@ -62,8 +67,21 @@ public class CarbonCreditSiteController {
     }
 
     @GetMapping("/employer-dashboard")
-    public String showEmployerDashboard() {
-        return "employer-dashboard";  // JSP name without .jsp extension
+    public String showEmployerDashboard(HttpSession session, Model model) {
+        String employerId = (String) session.getAttribute("employerId");
+
+        if (employerId != null) {
+            Employer employer = employerService.getEmployerById(employerId);
+            if (employer != null) {
+                model.addAttribute("employerName", employer.getEmployerName());
+            } else {
+                model.addAttribute("employerName", "Employer");
+            }
+        } else {
+            model.addAttribute("employerName", "Employer");
+        }
+
+        return "employer-dashboard";  // JSP name
     }
 
     @GetMapping("/employee-list")
@@ -73,6 +91,17 @@ public class CarbonCreditSiteController {
             List<Employee> employees = employeeService.getEmployeesByEmployerId(employerId);
             model.addAttribute("employees", employees);
         }
+        if (employerId != null) {
+            Employer employer = employerService.getEmployerById(employerId);
+            if (employer != null) {
+                model.addAttribute("employerName", employer.getEmployerName());
+            } else {
+                model.addAttribute("employerName", "Employer");
+            }
+        } else {
+            model.addAttribute("employerName", "Employer");
+        }
+
         return "employee-list"; // JSP name without extension
     }
 
@@ -87,6 +116,16 @@ public class CarbonCreditSiteController {
         List<Trip> trips = tripRepository.findByEmployeeId(employeeId);
         model.addAttribute("employeeId", employeeId);
         model.addAttribute("trips", trips);
+        if (employeeId != null) {
+            Employee employee = employeeService.getEmployeeByUserId(employeeId);
+            if (employee != null) {
+                model.addAttribute("employeeName", employee.getEmployeeName());
+            } else {
+                model.addAttribute("employeeName", "Employee");
+            }
+        } else {
+            model.addAttribute("employeeName", "Employee");
+        }
 
         return "employee-dashboard";
     }
@@ -100,6 +139,19 @@ public class CarbonCreditSiteController {
         model.addAttribute("trips", trips);
         model.addAttribute("employerId", employerId);
         model.addAttribute("totalCredits", totalCredits);
+
+        System.out.println("employerId" + employerId);
+
+        if (employerId != null) {
+            Employer employer = employerService.getEmployerById(employerId);
+            if (employer != null) {
+                model.addAttribute("employerName", employer.getEmployerName());
+            } else {
+                model.addAttribute("employerName", "Employer");
+            }
+        } else {
+            model.addAttribute("employerName", "Employer");
+        }
 
         return "trip-list";
     }
@@ -117,6 +169,17 @@ public class CarbonCreditSiteController {
         model.addAttribute("trips", trips);
         model.addAttribute("employerId", employerId);
         model.addAttribute("totalCredits", totalCredits);
+
+        if (employerId != null) {
+            Employer employer = employerService.getEmployerById(employerId);
+            if (employer != null) {
+                model.addAttribute("employerName", employer.getEmployerName());
+            } else {
+                model.addAttribute("employerName", "Employer");
+            }
+        } else {
+            model.addAttribute("employerName", "Employer");
+        }
 
         return "trip-list";
     }
@@ -182,5 +245,21 @@ public class CarbonCreditSiteController {
 
         model.addAttribute("message", "Credits bought and recorded as: " + dummyTrip.getTripId());
         return "buy-success";
+    }
+
+    @GetMapping("/carbon-bank-trips")
+    public String showTripsForCarbonBank(HttpSession session, Model model) {
+        String userId = (String) session.getAttribute("userId");  // Assuming you stored logged in CarbonCreditBank user ID here
+
+        System.out.println("Bank user logged in using " + userId );
+        CarbonCreditBank bank = carbonCreditBankService.getBankById(userId);
+
+
+        List<Trip> trips = tripService.getTripsForCarbonCreditBank(userId);
+
+        model.addAttribute("trips", trips);
+        model.addAttribute("bankName", bank.getBankName());
+
+        return "carbon-bank-trips";  // JSP name
     }
 }
