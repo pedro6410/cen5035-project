@@ -12,7 +12,6 @@
     <div class="container-fluid">
         <span class="navbar-brand">Carbon Credit Portal</span>
         <div>
-            <a href="/dashboard" class="btn btn-outline-light me-2">Home</a>
             <a href="/logout" class="btn btn-outline-light">Logout</a>
         </div>
     </div>
