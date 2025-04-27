@@ -28,7 +28,7 @@
                     <h3 class="card-title text-center mb-4">Sign Up</h3>
 
                     <form action="/signup" method="post">
-                        <!-- Common -->
+
                         <div class="mb-3">
                             <label for="userId" class="form-label">User ID (Username)</label>
                             <input type="text" name="userId" id="userId" class="form-control" required />
@@ -49,13 +49,13 @@
                             </select>
                         </div>
 
-                        <!-- Employer ID field (common for Employer and Employee) -->
+
                         <div class="mb-3" id="employerIdField" style="display: none;">
                             <label for="employerId" class="form-label">Employer ID</label>
                             <input type="text" name="employerId" id="employerId" class="form-control" value="${employerId}" />
                         </div>
 
-                        <!-- Employee Fields -->
+
                         <div id="employeeFields" style="display: none;">
                             <div class="mb-3">
                                 <label for="employeeId" class="form-label">Employee ID</label>
@@ -73,7 +73,7 @@
                             </div>
                         </div>
 
-                        <!-- Employer Fields -->
+
                         <div id="employerFields" style="display: none;">
                             <div class="mb-3">
                                 <label for="employerName" class="form-label">Employer Name</label>
@@ -91,7 +91,7 @@
                             </div>
                         </div>
 
-                        <!-- Bank Fields -->
+
                         <div id="bankFields" style="display: none;">
                         <div class="mb-3">
                                 <label for="bankID" class="form-label">Bank ID</label>
@@ -124,7 +124,7 @@
     </div>
 </div>
 
-<!-- JavaScript Section -->
+
 <script>
     function toggleRoleFields() {
         const role = document.getElementById("role").value;
@@ -133,15 +133,15 @@
         document.getElementById("employerFields").style.display = (role === "employer") ? "block" : "none";
         document.getElementById("bankFields").style.display = (role === "bank") ? "block" : "none";
 
-        // Show Employer ID field for both employer and employee
+
         document.getElementById("employerIdField").style.display = (role === "employer" || role === "employee") ? "block" : "none";
     }
 
     window.onload = function() {
-        var autoRole = '${autoSelectRole}'; // server-side injected
+        var autoRole = '${autoSelectRole}';
         if (autoRole === 'employee') {
             document.getElementById("role").value = 'employee';
-            toggleRoleFields();  // manually trigger to show correct fields
+            toggleRoleFields();
         }
     }
 </script>

@@ -64,7 +64,7 @@ public class TripService {
             System.out.println("*** Found Employer: " + employer.getEmployerId());
         }
 
-        // ✅ Directly find trips by employerIds
+
         List<Trip> filteredTrips = tripRepository.findByEmployerIdIn(employerIds);
 
         System.out.println("*** Total Trips Found: " + filteredTrips.size());

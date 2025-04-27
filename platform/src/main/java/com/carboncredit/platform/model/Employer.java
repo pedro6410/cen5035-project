@@ -24,7 +24,7 @@ public class Employer {
     @Column(name = "active")
     private int active = 0;
 
-    @Column(name = "name")  // Rename if needed
+    @Column(name = "name")
     private String name;
 
     @Column(name = "registrationNumber")

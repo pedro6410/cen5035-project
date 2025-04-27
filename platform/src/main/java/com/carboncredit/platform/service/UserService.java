@@ -13,6 +13,7 @@ import com.carboncredit.platform.repo.CarbonCreditBankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,34 +36,44 @@ public class UserService {
     private CarbonCreditBankRepository carbonCreditBankRepository;
 
     public List<UserWithRole> getAllUsersWithRoles() {
-        return userRepository.findAll().stream()
-                .filter(user -> !administratorRepository.existsByUserId(user.getId()))  // Skip Administrators
-                .map(user -> {
-                    String role;
-                    String userName = "";
+        List<User> users = userRepository.findAll();
 
-                    if (user.getEmployeeId() != null && user.getEmployerId() != null) {
-                        role = "Employee";
-                        Employee employee = employeeRepository.findById(user.getEmployeeId()).orElse(null);
-                        if (employee != null) {
-                            userName = employee.getEmployeeName();
-                        }
-                    } else if (user.getEmployerId() != null) {
-                        role = "Employer";
-                        Employer employer = employerRepository.findById(user.getEmployerId()).orElse(null);
-                        if (employer != null) {
-                            userName = employer.getEmployerName();
-                        }
-                    } else {
-                        role = "CarbonCreditBank";
-                        CarbonCreditBank bank = carbonCreditBankRepository.findById(user.getId()).orElse(null);
-                        if (bank != null) {
-                            userName = bank.getBankName();
-                        }
-                    }
+        List<UserWithRole> userWithRoles = new ArrayList<>();
 
-                    return new UserWithRole(user, role, userName);
-                })
-                .collect(Collectors.toList());
+        for (User user : users) {
+            if (administratorRepository.existsByUserId(user.getId())) {
+                continue;
+            }
+
+            String role;
+            String userName = "";
+
+
+            if (user.getEmployeeId() != null && user.getEmployerId() != null) {
+                role = "Employee";
+                Employee employee = employeeRepository.findById(user.getEmployeeId()).orElse(null);
+                if (employee != null) {
+                    userName = employee.getEmployeeName();
+                }
+            } else if (user.getEmployerId() != null) {
+                role = "Employer";
+                Employer employer = employerRepository.findById(user.getEmployerId()).orElse(null);
+                if (employer != null) {
+                    userName = employer.getEmployerName();
+                }
+            } else {
+                role = "CarbonCreditBank";
+                CarbonCreditBank bank = carbonCreditBankRepository.findById(user.getId()).orElse(null);
+                if (bank != null) {
+                    userName = bank.getBankName();
+                }
+            }
+
+            UserWithRole userWithRole = new UserWithRole(user, role, userName);
+            userWithRoles.add(userWithRole);
+        }
+
+        return userWithRoles;
     }
+
 }

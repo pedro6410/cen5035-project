@@ -25,7 +25,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="alert alert-success text-center" role="alert">
-                <h4 class="alert-heading"> Success!</h4>
+                <h4 class="alert-heading"> Success </h4>
                 <p>${message}</p>
                 <hr>
                 <a href="/employerdashboard" class="btn btn-success">Return to Dashboard</a>

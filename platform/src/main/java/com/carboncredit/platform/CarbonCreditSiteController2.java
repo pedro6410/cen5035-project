@@ -60,10 +60,8 @@ public class CarbonCreditSiteController2 {
             System.out.println("****** Login success");
 
             if (session.getAttribute("carboncreditbankid") != null) {
-                // ✅ If carboncreditbankid present in session, user is a bank user
                 return "redirect:/carbon-bank-trips";
             } else {
-                // ✅ Else normal dashboard
                 return "redirect:/dashboard";
             }
 
@@ -165,7 +163,7 @@ public class CarbonCreditSiteController2 {
                     employer.setEmployerName(employerName);
                     employer.setRegistrationNumber(registrationNumber);
                     employer.setAssociatedBank(associatedBank);
-                    employer.setActive(0); // Optional
+                    employer.setActive(0);
 
                     employerService.saveEmployer(employer);
                 }
@@ -206,12 +204,11 @@ public class CarbonCreditSiteController2 {
     }
     @GetMapping("/create-employee")
     public String createEmployeePage(HttpSession session, Model model) {
-        // Pass employerId from session to signup page if needed
         String employerId = (String) session.getAttribute("employerId");
         model.addAttribute("employerId", employerId);
         model.addAttribute("autoSelectRole", "employee");
 
-        return "signup";  // Reuse your signup.jsp
+        return "signup";
     }
 
 }

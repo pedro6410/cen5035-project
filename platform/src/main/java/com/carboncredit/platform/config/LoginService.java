@@ -84,7 +84,7 @@ public class LoginService {
                     System.out.println("*** Admin ID: " + admin.getAdministratorId());
                     session.setAttribute("administratorid", admin.getAdministratorId());
                 } else {
-                    // ✅ Not Admin? Then check if CarbonCreditBank user
+
                     boolean isCarbonBankUser = carbonCreditBankService.existsById(userId);
 
                     if (isCarbonBankUser) {

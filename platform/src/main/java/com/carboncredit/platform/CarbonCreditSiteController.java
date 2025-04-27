@@ -25,8 +25,6 @@ public class CarbonCreditSiteController {
     @Autowired
     private TripService tripService;
 
-    @Autowired
-    private BankService bankService;
 
     @Autowired
     private UserService userService;
@@ -81,12 +79,12 @@ public class CarbonCreditSiteController {
             model.addAttribute("employerName", "Employer");
         }
 
-        return "employer-dashboard";  // JSP name
+        return "employer-dashboard";
     }
 
     @GetMapping("/employee-list")
     public String showEmployeeList(Model model, HttpSession session) {
-        String employerId = (String) session.getAttribute("employerId");  // Get employerId from session
+        String employerId = (String) session.getAttribute("employerId");
         if (employerId != null) {
             List<Employee> employees = employeeService.getEmployeesByEmployerId(employerId);
             model.addAttribute("employees", employees);
@@ -102,7 +100,7 @@ public class CarbonCreditSiteController {
             model.addAttribute("employerName", "Employer");
         }
 
-        return "employee-list"; // JSP name without extension
+        return "employee-list";
     }
 
     @GetMapping("/employee-dashboard")
@@ -249,7 +247,7 @@ public class CarbonCreditSiteController {
 
     @GetMapping("/carbon-bank-trips")
     public String showTripsForCarbonBank(HttpSession session, Model model) {
-        String userId = (String) session.getAttribute("userId");  // Assuming you stored logged in CarbonCreditBank user ID here
+        String userId = (String) session.getAttribute("userId");
 
         System.out.println("Bank user logged in using " + userId );
         CarbonCreditBank bank = carbonCreditBankService.getBankById(userId);
@@ -260,6 +258,6 @@ public class CarbonCreditSiteController {
         model.addAttribute("trips", trips);
         model.addAttribute("bankName", bank.getBankName());
 
-        return "carbon-bank-trips";  // JSP name
+        return "carbon-bank-trips";
     }
 }

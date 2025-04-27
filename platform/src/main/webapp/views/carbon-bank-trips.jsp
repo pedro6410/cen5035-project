@@ -42,7 +42,7 @@
                     <td>${trip.endTime}</td>
                     <td>${trip.distanceMiles}</td>
 
-                    <!-- Mapping Method value to Text -->
+
                     <td>
                         <c:choose>
                             <c:when test="${trip.method == 1}">Driving</c:when>
@@ -64,7 +64,7 @@
 
     <c:if test="${empty trips}">
         <div class="alert alert-info text-center mt-3">
-            No trips found under your Carbon Credit Bank.
+            No trips found under Carbon Credit Bank: ${bankName}
         </div>
     </c:if>
 </div>
